@@ -286,26 +286,100 @@ public class ipviewer_application extends JFrame
         if (netMatcher.find()) {
             // Clear any existing errors
             netmaskErrorLabel.setText("");
+            
+            // Check that the numbers we've captured are between 0 and 255 
+            for (int i=1;i<=4;i++) {
+                if (Integer.parseInt(netMatcher.group(i)) > 255) {
+                    netmaskErrorLabel.setText("All numbers in a netmask must be less than 255");
+                    for (int j=0;j<netmaskBoxes.length;j++) {
+                        netmaskBoxes[j].clearNumber();
+                    }
+                    for (int j=0;j<netmaskBinaryBoxes.length;j++) {
+                        netmaskBinaryBoxes[j].clearNumber();
+                    }
+                    return;
+                }
+            }
+
+            
+            // WE also need to make sure that the netmask is continuous.  We'll still display
+            // it if it isn't, but we'll add and error message
+            
+            boolean netmaskEnded = false;
+            
             // Update the netmask address
             String net1 = String.format("%03d",Integer.parseInt(netMatcher.group(1)));
+            if (netmaskEnded) {
+                if (net1.contains("1")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
+            else {
+                if (net1.contains("0")) {
+                    netmaskEnded = true;
+                }
+                if (net1.indexOf("1")>net1.indexOf("0")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
+            
             updateNumberBoxes(net1, netmaskBoxes, 0);
 
             String bnet1 = padBinaryString(Integer.toBinaryString(Integer.parseInt(netMatcher.group(1))),8);
             updateNumberBoxes(bnet1,netmaskBinaryBoxes,0);
 
             String net2 = String.format("%03d",Integer.parseInt(netMatcher.group(2)));
+            if (netmaskEnded) {
+                if (net2.contains("1")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
+            else {
+                if (net2.contains("0")) {
+                    netmaskEnded = true;
+                }
+                if (net2.indexOf("1")>net2.indexOf("0")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
             updateNumberBoxes(net2, netmaskBoxes, 3);
 
             String bnet2 = padBinaryString(Integer.toBinaryString(Integer.parseInt(netMatcher.group(2))),8);
             updateNumberBoxes(bnet2,netmaskBinaryBoxes,8);
 
             String net3 = String.format("%03d",Integer.parseInt(netMatcher.group(3)));
+            if (netmaskEnded) {
+                if (net3.contains("1")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
+            else {
+                if (net3.contains("0")) {
+                    netmaskEnded = true;
+                }
+                if (net3.indexOf("1")>net1.indexOf("0")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
             updateNumberBoxes(net3, netmaskBoxes, 6);
 
             String bnet3 = padBinaryString(Integer.toBinaryString(Integer.parseInt(netMatcher.group(3))),8);
             updateNumberBoxes(bnet3,netmaskBinaryBoxes,16);
 
             String net4 = String.format("%03d",Integer.parseInt(netMatcher.group(4)));
+            if (netmaskEnded) {
+                if (net4.contains("1")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
+            else {
+                if (net4.contains("0")) {
+                    netmaskEnded = true;
+                }
+                if (net4.indexOf("1")>net4.indexOf("0")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
             updateNumberBoxes(net4, netmaskBoxes, 9);
 
             String bnet4 = padBinaryString(Integer.toBinaryString(Integer.parseInt(netMatcher.group(4))),8);
