@@ -12,10 +12,16 @@ import java.awt.*;
 public class NumberBox extends JPanel
 {
     private String number = ".";
+    private boolean highlighted = false;
 
     public void setNumber (int number)
     {
         this.number = ""+number;
+        repaint();
+    }
+    
+    public void setHighlight (boolean highlight) {
+        highlighted = highlight;
         repaint();
     }
     
@@ -49,6 +55,12 @@ public class NumberBox extends JPanel
             break;
         }
                 
+        if (highlighted) {
+            g.setColor(Color.BLUE);
+        }
+        else {
+            g.setColor(Color.BLACK);
+        }
         g.drawString(
             number,
             (getWidth()-g.getFontMetrics().stringWidth(number))/2,

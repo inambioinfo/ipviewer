@@ -325,7 +325,7 @@ public class ipviewer_application extends JFrame
                     netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
                 }
             }
-            updateNumberBoxes(bnet1,netmaskBinaryBoxes,0);
+            updateNumberBoxes(bnet1,netmaskBinaryBoxes,0,ipBinaryBoxes);
 
             String net2 = String.format("%03d",Integer.parseInt(netMatcher.group(2)));
             updateNumberBoxes(net2, netmaskBoxes, 3);
@@ -344,7 +344,7 @@ public class ipviewer_application extends JFrame
                     netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
                 }
             }
-            updateNumberBoxes(bnet2,netmaskBinaryBoxes,8);
+            updateNumberBoxes(bnet2,netmaskBinaryBoxes,8,ipBinaryBoxes);
 
             String net3 = String.format("%03d",Integer.parseInt(netMatcher.group(3)));
             updateNumberBoxes(net3, netmaskBoxes, 6);
@@ -363,7 +363,7 @@ public class ipviewer_application extends JFrame
                     netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
                 }
             }
-            updateNumberBoxes(bnet3,netmaskBinaryBoxes,16);
+            updateNumberBoxes(bnet3,netmaskBinaryBoxes,16,ipBinaryBoxes);
 
             String net4 = String.format("%03d",Integer.parseInt(netMatcher.group(4)));
             updateNumberBoxes(net4, netmaskBoxes, 9);
@@ -383,7 +383,7 @@ public class ipviewer_application extends JFrame
                 }
             }
 
-            updateNumberBoxes(bnet4,netmaskBinaryBoxes,24);
+            updateNumberBoxes(bnet4,netmaskBinaryBoxes,24,ipBinaryBoxes);
     
         }
         else {
@@ -408,8 +408,23 @@ public class ipviewer_application extends JFrame
     }
 
     private void updateNumberBoxes (String formattedString, NumberBox[] boxes, int startPosition) {
+        updateNumberBoxes(formattedString, boxes, startPosition, null);
+    }
+    
+    private void updateNumberBoxes (String formattedString, NumberBox[] boxes, int startPosition, NumberBox [] highlightBoxes) {
         for (int i=0;i<formattedString.toCharArray().length;i++) {
             boxes[startPosition+i].setNumber(Integer.parseInt(""+formattedString.charAt(i)));
+            if (highlightBoxes != null) {
+                // We highlight the position in both boxes if the position in the main box is a 1
+                if (formattedString.charAt(i) == '1') {
+                    boxes[startPosition+i].setHighlight(true);
+                    highlightBoxes[startPosition+i].setHighlight(true);
+                }
+                else {
+                    boxes[startPosition+i].setHighlight(false);
+                    highlightBoxes[startPosition+i].setHighlight(false);
+                }
+            }
         }
     }
 
