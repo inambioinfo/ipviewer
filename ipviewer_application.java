@@ -230,6 +230,21 @@ public class ipviewer_application extends JFrame
         if (ipMatcher.find()) {
             // Clear any errors
             ipErrorLabel.setText("");
+            
+            // Check that the numbers we've captured are between 0 and 255
+            for (int i=1;i<=4;i++) {
+                if (Integer.parseInt(ipMatcher.group(i)) > 255) {
+                    ipErrorLabel.setText("All numbers in an IP address must be less than 255");
+                    for (int j=0;i<ipBoxes.length;j++) {
+                        ipBoxes[j].clearNumber();
+                    }
+                    for (int j=0;i<ipBinaryBoxes.length;j++) {
+                        ipBinaryBoxes[j].clearNumber();
+                    }
+                    return;
+                }
+            }
+            
             // Update the ip address
             String ip1 = String.format("%03d",Integer.parseInt(ipMatcher.group(1)));
             updateNumberBoxes(ip1, ipBoxes, 0);
