@@ -235,10 +235,10 @@ public class ipviewer_application extends JFrame
             for (int i=1;i<=4;i++) {
                 if (Integer.parseInt(ipMatcher.group(i)) > 255) {
                     ipErrorLabel.setText("All numbers in an IP address must be less than 255");
-                    for (int j=0;i<ipBoxes.length;j++) {
+                    for (int j=0;j<ipBoxes.length;j++) {
                         ipBoxes[j].clearNumber();
                     }
-                    for (int j=0;i<ipBinaryBoxes.length;j++) {
+                    for (int j=0;j<ipBinaryBoxes.length;j++) {
                         ipBinaryBoxes[j].clearNumber();
                     }
                     return;
