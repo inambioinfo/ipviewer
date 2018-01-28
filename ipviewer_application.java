@@ -309,80 +309,80 @@ public class ipviewer_application extends JFrame
             
             // Update the netmask address
             String net1 = String.format("%03d",Integer.parseInt(netMatcher.group(1)));
-            if (netmaskEnded) {
-                if (net1.contains("1")) {
-                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
-                }
-            }
-            else {
-                if (net1.contains("0")) {
-                    netmaskEnded = true;
-                }
-                if (net1.indexOf("1")>net1.indexOf("0")) {
-                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
-                }
-            }
-            
             updateNumberBoxes(net1, netmaskBoxes, 0);
 
             String bnet1 = padBinaryString(Integer.toBinaryString(Integer.parseInt(netMatcher.group(1))),8);
+            if (netmaskEnded) {
+                if (bnet1.contains("1")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
+            else {
+                if (bnet1.contains("0")) {
+                    netmaskEnded = true;
+                }
+                if (bnet1.indexOf("0")>=0 && bnet1.lastIndexOf("1")>bnet1.indexOf("0")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
             updateNumberBoxes(bnet1,netmaskBinaryBoxes,0);
 
             String net2 = String.format("%03d",Integer.parseInt(netMatcher.group(2)));
-            if (netmaskEnded) {
-                if (net2.contains("1")) {
-                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
-                }
-            }
-            else {
-                if (net2.contains("0")) {
-                    netmaskEnded = true;
-                }
-                if (net2.indexOf("1")>net2.indexOf("0")) {
-                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
-                }
-            }
             updateNumberBoxes(net2, netmaskBoxes, 3);
 
             String bnet2 = padBinaryString(Integer.toBinaryString(Integer.parseInt(netMatcher.group(2))),8);
+            if (netmaskEnded) {
+                if (bnet2.contains("1")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
+            else {
+                if (bnet2.contains("0")) {
+                    netmaskEnded = true;
+                }
+                if (bnet2.indexOf("0")>=0 && bnet2.lastIndexOf("1")>bnet2.indexOf("0")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
             updateNumberBoxes(bnet2,netmaskBinaryBoxes,8);
 
             String net3 = String.format("%03d",Integer.parseInt(netMatcher.group(3)));
-            if (netmaskEnded) {
-                if (net3.contains("1")) {
-                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
-                }
-            }
-            else {
-                if (net3.contains("0")) {
-                    netmaskEnded = true;
-                }
-                if (net3.indexOf("1")>net1.indexOf("0")) {
-                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
-                }
-            }
             updateNumberBoxes(net3, netmaskBoxes, 6);
 
             String bnet3 = padBinaryString(Integer.toBinaryString(Integer.parseInt(netMatcher.group(3))),8);
-            updateNumberBoxes(bnet3,netmaskBinaryBoxes,16);
-
-            String net4 = String.format("%03d",Integer.parseInt(netMatcher.group(4)));
             if (netmaskEnded) {
-                if (net4.contains("1")) {
+                if (bnet3.contains("1")) {
                     netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
                 }
             }
             else {
-                if (net4.contains("0")) {
+                if (bnet3.contains("0")) {
                     netmaskEnded = true;
                 }
-                if (net4.indexOf("1")>net4.indexOf("0")) {
+                if (bnet3.indexOf("0")>=0 && bnet3.lastIndexOf("1")>bnet3.indexOf("0")) {
                     netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
                 }
             }
-            updateNumberBoxes(net4, netmaskBoxes, 9);
+            updateNumberBoxes(bnet3,netmaskBinaryBoxes,16);
 
+            String net4 = String.format("%03d",Integer.parseInt(netMatcher.group(4)));
+            updateNumberBoxes(net4, netmaskBoxes, 9);
+            
             String bnet4 = padBinaryString(Integer.toBinaryString(Integer.parseInt(netMatcher.group(4))),8);
+            if (netmaskEnded) {
+                if (bnet4.contains("1")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
+            else {
+                if (bnet4.contains("0")) {
+                    netmaskEnded = true;
+                }
+                if (bnet4.indexOf("0")>=0 && bnet4.lastIndexOf("1")>bnet4.indexOf("0")) {
+                    netmaskErrorLabel.setText("Netmasks must be continuous from the left end");
+                }
+            }
+
             updateNumberBoxes(bnet4,netmaskBinaryBoxes,24);
     
         }
