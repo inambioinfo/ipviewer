@@ -15,7 +15,9 @@ public class ipviewer_application extends JFrame
 {
     // instance variables - replace the example below with your own
     private JTextField ipField = new JTextField("192.168.0.1");
+    private JLabel ipErrorLabel = new JLabel("");
     private JTextField netmaskField = new JTextField("255.255.255.0");
+    private JLabel netmaskErrorLabel = new JLabel("");
 
     private NumberBox [] ipBoxes = new NumberBox[12];
     private NumberBox [] ipBinaryBoxes = new NumberBox[32];
@@ -35,36 +37,53 @@ public class ipviewer_application extends JFrame
 
         gbc.gridx=1;
         gbc.gridy=1;
-        gbc.weightx = 0.5;
+        gbc.weightx = 0.001;
         gbc.weighty = 0.001;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5,5,5,5);
 
-        JPanel ipEntryPanel = new JPanel();
-        ipEntryPanel.setLayout(new BorderLayout());
-        ipEntryPanel.add(new JLabel("IP Address   "),BorderLayout.WEST);
-        ipEntryPanel.add(ipField,BorderLayout.CENTER);
+        getContentPane().add(new JLabel("IP Address   "),gbc);
+        
+        gbc.gridx++;
+        gbc.weightx=0.999;
+        
+        getContentPane().add(ipField,gbc);
         ipField.addKeyListener(new KeyListener () {
             public void keyPressed (KeyEvent e) {}
             public void keyReleased (KeyEvent e) {updateNumbers();}
             public void keyTyped (KeyEvent e){}
         });
-        getContentPane().add(ipEntryPanel,gbc);
+        
+        gbc.gridy++;
+        ipErrorLabel.setForeground(Color.RED);
+        getContentPane().add(ipErrorLabel,gbc);
 
         gbc.gridy++;
+        gbc.gridx=1;
+        gbc.weightx=0.001;
+   
 
-        JPanel netmaskEntryPanel = new JPanel();
-        netmaskEntryPanel.setLayout(new BorderLayout());
-        netmaskEntryPanel.add(new JLabel("Netmask   "),BorderLayout.WEST);
-        netmaskEntryPanel.add(netmaskField,BorderLayout.CENTER);
+        getContentPane().add(new JLabel("Netmask   "),gbc);
+
+        gbc.gridx++;
+        gbc.weightx=0.999;
+
+        getContentPane().add(netmaskField,gbc);
         netmaskField.addKeyListener(new KeyListener () {
             public void keyPressed (KeyEvent e) {}
             public void keyReleased (KeyEvent e) {updateNumbers();}
             public void keyTyped (KeyEvent e){}
         });
-        getContentPane().add(netmaskEntryPanel,gbc);
+        
+        gbc.gridy++;
+        netmaskErrorLabel.setForeground(Color.RED);
+        getContentPane().add(netmaskErrorLabel,gbc);
 
         gbc.gridy++;
+        gbc.gridy++;
+        gbc.gridx=1;
+        gbc.weightx=0.5;
+        gbc.gridwidth = 2;
 
         getContentPane().add(new JLabel("IP Address Breakdown",JLabel.CENTER),gbc);
 
@@ -209,6 +228,8 @@ public class ipviewer_application extends JFrame
         Matcher ipMatcher = ipPattern.matcher(ipField.getText().trim());
 
         if (ipMatcher.find()) {
+            // Clear any errors
+            ipErrorLabel.setText("");
             // Update the ip address
             String ip1 = String.format("%03d",Integer.parseInt(ipMatcher.group(1)));
             updateNumberBoxes(ip1, ipBoxes, 0);
@@ -235,6 +256,7 @@ public class ipviewer_application extends JFrame
             updateNumberBoxes(bip4,ipBinaryBoxes,24);
         }
         else {
+            ipErrorLabel.setText("Not the right structure for an IP address (eg 192.168.0.1)");
             // Set the address to be blank
             for (int i=0;i<ipBoxes.length;i++) {
                 ipBoxes[i].clearNumber();
@@ -247,6 +269,8 @@ public class ipviewer_application extends JFrame
         Matcher netMatcher = ipPattern.matcher(netmaskField.getText().trim());
 
         if (netMatcher.find()) {
+            // Clear any existing errors
+            netmaskErrorLabel.setText("");
             // Update the netmask address
             String net1 = String.format("%03d",Integer.parseInt(netMatcher.group(1)));
             updateNumberBoxes(net1, netmaskBoxes, 0);
@@ -275,6 +299,7 @@ public class ipviewer_application extends JFrame
         }
         else {
             // Set the address to be blank
+            netmaskErrorLabel.setText("Not the right structure for a netmask eg: 255.255.0.0");
             for (int i=0;i<netmaskBoxes.length;i++) {
                 netmaskBoxes[i].clearNumber();
             }
